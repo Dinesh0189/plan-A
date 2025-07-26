@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate 30-Day Transformation Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f5; /* Zinc 100 */
+        }
+        .main-tab.active {
+            border-color: #6366f1; /* Indigo 500 */
+            background-color: #eef2ff; /* Indigo 100 */
+            color: #4338ca; /* Indigo 700 */
+        }
+        .task-item input:checked + label {
+            text-decoration: line-through;
+            color: #71717a; /* Zinc 500 */
+        }
+        .task-item input:checked + label .task-icon,
+        .task-item input:checked + label .task-title {
+            opacity: 0.6;
+        }
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 250px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 250px;
+        }
+        .full-plan-task-item input:checked + label {
+            text-decoration: line-through;
+            color: #a1a1aa; /* Zinc 400 */
+        }
+        .day-highlight {
+            border: 2px solid #6366f1; /* Indigo 500 */
+            background-color: #eef2ff; /* Indigo 100 */
+        }
+    </style>
+</head>
+<body class="text-zinc-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-indigo-800">The Ultimate 30-Day Transformation</h1>
+            <p class="mt-4 text-base sm:text-lg text-zinc-600 max-w-3xl mx-auto">Your unified dashboard for mastering tech, fitness, and communication.</p>
+            <button id="clear-progress-btn" class="mt-4 bg-red-500 text-white py-2 px-4 rounded-md font-semibold text-sm hover:bg-red-600 transition-all shadow-sm">Clear All Progress</button>
+        </header>
+
+        <nav class="flex flex-wrap border-b border-zinc-200 mb-8">
+            <button data-tab="dashboard" class="main-tab flex-grow font-semibold p-3 md:p-4 border-b-4 text-zinc-600 border-transparent hover:bg-indigo-50 transition text-sm sm:text-base">Today's Dashboard</button>
+            <button data-tab="fullstack" class="main-tab flex-grow font-semibold p-3 md:p-4 border-b-4 text-zinc-600 border-transparent hover:bg-indigo-50 transition text-sm sm:text-base">Full-Stack Dev</button>
+            <button data-tab="ai" class="main-tab flex-grow font-semibold p-3 md:p-4 border-b-4 text-zinc-600 border-transparent hover:bg-indigo-50 transition text-sm sm:text-base">AI / LLM</button>
+            <button data-tab="research" class="main-tab flex-grow font-semibold p-3 md:p-4 border-b-4 text-zinc-600 border-transparent hover:bg-indigo-50 transition text-sm sm:text-base">Research & Tech</button>
+            <button data-tab="webmastery" class="main-tab flex-grow font-semibold p-3 md:p-4 border-b-4 text-zinc-600 border-transparent hover:bg-indigo-50 transition text-sm sm:text-base">Web Mastery</button>
+            <button data-tab="fitness" class="main-tab flex-grow font-semibold p-3 md:p-4 border-b-4 text-zinc-600 border-transparent hover:bg-indigo-50 transition text-sm sm:text-base">Fitness Plan</button>
+            <button data-tab="english" class="main-tab flex-grow font-semibold p-3 md:p-4 border-b-4 text-zinc-600 border-transparent hover:bg-indigo-50 transition text-sm sm:text-base">English Fluency</button>
+            <button data-tab="skincare" class="main-tab flex-grow font-semibold p-3 md:p-4 border-b-4 text-zinc-600 border-transparent hover:bg-indigo-50 transition text-sm sm:text-base">Skincare Plan</button>
+        </nav>
+
+        <div id="tab-content-container" class="relative">
+            </div>
+
+    </div>
+
+    <script>
+        // --- DATA --- //
+        const masterPlan = {
+            fullstack: [
+                // Week 1: System Design & Backend Foundations
+                { day: 1, title: 'Microservices & API Design', theory: 'Study Microservice patterns (Database per service, API Gateway). Deep dive into REST API design: versioning, pagination, HATEOAS.', practical: 'Design the system for a "URL Shortener" service. Define OpenAPI specs for `url-service` and `analytics-service`.' },
+                { day: 2, title: 'Production-Grade Backend', theory: 'Choose a framework (Go/Gin or Node/NestJS). Learn structured logging, environment configuration, and project layout.', practical: 'Setup the `url-service` project. Implement placeholder endpoints with proper error handling and request validation.' },
+                { day: 3, title: 'Database & Caching', theory: 'Advanced SQL (transactions, indexing). Study Redis caching patterns (e.g., Cache-Aside).', practical: 'Design the database schema for the `url-service`. Implement Redis caching for frequently accessed short URLs.' },
+                { day: 4, title: 'Containerization', theory: 'Learn multi-stage Dockerfiles. Understand Docker Compose for local development.', practical: 'Write an optimized `Dockerfile` for the `url-service`. Create a `docker-compose.yml` to run the service, a PostgreSQL DB, and Redis.' },
+                { day: 5, title: 'IaC with Terraform', theory: 'Core Infrastructure as Code concepts. Learn Terraform basics: providers, resources, state.', practical: 'Write a Terraform script to provision a VPC, subnets, and an RDS instance on AWS/GCP/Azure.' },
+                { day: 6, title: 'CI/CD with GitHub Actions', theory: 'Deep dive into GitHub Actions workflows, secrets, and environments.', practical: 'Create a CI/CD pipeline that tests, builds a Docker image, pushes it to a registry (ECR/Docker Hub), and deploys to a container service (ECS/Cloud Run).' },
+                { day: 7, title: 'Review & Consolidate', theory: 'Read "12-Factor App" methodology. Watch a full system design walkthrough video.', practical: 'Trigger your full pipeline. Ensure the service is live in the cloud. Document the process.' },
+                // Week 2: Modern Frontend & Full Integration
+                { day: 8, title: 'Intro to Next.js', theory: 'Learn Next.js App Router, Server Components vs. Client Components, and file-based routing.', practical: 'Setup a new Next.js project with TypeScript and Tailwind CSS. Create basic page layouts and routes for the URL shortener UI.' },
+                { day: 9, title: 'Data Fetching & State', theory: 'Study client-side vs. server-side data fetching. Learn React Query/SWR for server state management.', practical: 'Use React Query to fetch data from your live backend service. Implement a list view for previously shortened URLs.' },
+                { day: 10, title: 'Advanced Frontend UX', theory: 'Learn about Optimistic UI updates. Implement form handling with `react-hook-form` and Zod for validation.', practical: 'Build the "shorten URL" form. Implement optimistic UI updates when a user submits a new URL.' },
+                { day: 11, title: 'Authentication & Security', theory: 'Study JWT-based authentication flows. Understand how to implement protected routes in Next.js.', practical: 'Integrate a simple authentication service (e.g., Clerk, Auth0). Create login/logout functionality and a protected dashboard page.' },
+                { day: 12, title: 'Real-time with WebSockets', theory: 'Understand the WebSocket protocol for bidirectional communication.', practical: 'Add a WebSocket connection to the `analytics-service` to push real-time click updates to the frontend dashboard.' },
+                { day: 13, title: 'Observability', theory: 'The three pillars: Logs, Metrics, Traces. Instrumenting an application with Prometheus.', practical: 'Add a `/metrics` endpoint to your backend. Set up Prometheus/Grafana via Docker Compose to monitor key application metrics (e.g., URLs shortened).' },
+                { day: 14, title: 'Review & Full-Stack Polish', theory: 'Review the entire request lifecycle from frontend click to database write.', practical: 'Write end-to-end tests for the core user flow (login, shorten URL, view analytics).' },
+                // Week 3 & 4: Advanced Topics & Project Polish
+                ...Array(16).fill(0).map((_, i) => ({ day: 15 + i, title: `Advanced Topic Day ${i+1}`, theory: 'Choose one: GraphQL, gRPC, Kubernetes basics, advanced database indexing, or a security topic (OWASP Top 10).', practical: 'Create a small proof-of-concept project for the chosen topic or integrate it into your main project.' }))
+            ],
+            ai: [
+                { day: 1, title: 'AI Kickstart', theory: 'Setup Python for AI (Miniconda, Jupyter). Review Python basics: data structures, functions, classes.', practical: 'Complete a Python refresher exercise. Write a script to read and parse a text file.' },
+                { day: 2, title: 'LLM Fundamentals', theory: 'What are LLMs? Understand Transformer architecture, tokens, and embeddings.', practical: 'Use an LLM playground (e.g., OpenAI, Gemini) to experiment with different prompts and parameters like temperature.' },
+                { day: 3, title: 'Mastering Prompt Engineering', theory: 'Learn core prompting techniques: Zero-shot, Few-shot, and Chain-of-Thought (CoT).', practical: 'Write prompts for various tasks: summarization, classification, and data extraction (e.g., extracting items from a recipe into JSON format).' },
+                { day: 4, title: 'Building with LLM APIs', theory: 'Learn to use LLM SDKs (Python/JS). Understand API parameters and secure key management.', practical: 'Write a Python script that takes a user query, formats it into a prompt, and gets a response from an LLM API.' },
+                { day: 5, title: 'Intro to LangChain', theory: 'What problem does LangChain solve? Learn its core components: LLMs, Prompt Templates, Output Parsers.', practical: 'Refactor your Python script from yesterday to use a LangChain chain with a PromptTemplate and a JSONOutputParser.' },
+                { day: 6, title: 'AI Project: Chatbot', theory: 'Study how to maintain conversation history for context using LangChain\'s memory modules.', practical: 'Build a simple command-line chatbot that remembers the last few messages to have a coherent conversation.' },
+                { day: 7, title: 'Review & Deep Dive', theory: 'Read about different embedding models and their use cases.', practical: 'Experiment with different prompt templates to see how they affect the chatbot\'s personality and accuracy.' },
+                { day: 8, title: 'RAG Architecture', theory: 'What is Retrieval-Augmented Generation (RAG)? Understand the flow: Load -> Split -> Embed -> Store -> Retrieve -> Generate.', practical: 'Diagram the RAG architecture for a "Q&A on my Documents" application.' },
+                { day: 9, title: 'Vector Databases', theory: 'What are vector embeddings and vector databases? Why are they needed for RAG?', practical: 'Use LangChain to load a document (e.g., a blog post), split it into chunks, and store the embeddings in a local vector store like ChromaDB or FAISS.' },
+                { day: 10, title: 'Implementing RAG', theory: 'Learn how to create a "retrieval chain" that fetches relevant documents before calling the LLM.', practical: 'Build a Q&A script that takes a question, retrieves relevant chunks from your vector store, and passes them to an LLM to generate an answer.' },
+                { day: 11, title: 'Deploying AI as an API', theory: 'Learn to wrap your AI logic in a web server using FastAPI (Python).', practical: 'Create a FastAPI server with a single endpoint that takes a question and returns an answer from your RAG chain.' },
+                { day: 12, title: 'Containerizing the AI App', theory: 'Learn the specifics of Dockerizing a Python application, including dependency management.', practical: 'Write a Dockerfile for your FastAPI application and run it locally.' },
+                { day: 13, title: 'AI Ethics & Safety', theory: 'Read about common AI biases, model hallucinations, and prompt injection attacks.', practical: 'Write down 3 potential risks for your Q&A application and how you might mitigate them.' },
+                { day: 14, title: 'Final Project Integration', theory: 'Review how to call your new AI service from a simple frontend application (like one made with Streamlit or Gradio).', practical: 'Build a simple web UI for your RAG API using Streamlit.' },
+                // Week 3 & 4: Advanced AI Topics
+                ...Array(16).fill(0).map((_, i) => ({ day: 15 + i, title: `Advanced AI Day ${i+1}`, theory: 'Choose one: Fine-tuning basics, LLM Agents, multi-modal models (image generation), or evaluating LLM outputs.', practical: 'Follow a tutorial or read a paper on the chosen topic and write a summary of your key learnings.' }))
+            ],
+            research: [
+                // Week 1: Future of Backend & Infrastructure
+                { day: 1, title: 'WebAssembly (WASM) on the Server', details: 'Research: What is WASM and why is it fast? Explore server-side runtimes like Wasmtime. Task: Read the introduction on wasm.io and find one blog post on server-side WASM.' },
+                { day: 2, title: 'Serverless at the Edge', details: 'Research: How does Edge Computing (e.g., Cloudflare Workers, Vercel Edge) differ from traditional serverless (Lambda)? What are the use cases? Task: Compare the pricing and cold-start times of a Lambda vs. a Cloudflare Worker.' },
+                { day: 3, title: 'eBPF for Observability', details: 'Research: What is eBPF and how does it allow running sandboxed programs in the OS kernel? Explore tools like Cilium and Pixie. Task: Watch a short YouTube introduction to eBPF.' },
+                { day: 4, title: 'Modern Databases: NewSQL & Vector', details: 'Research: What is NewSQL (e.g., CockroachDB, TiDB)? What are Vector Databases (e.g., Pinecone, Weaviate) and why are they crucial for AI? Task: Read the homepage/docs of CockroachDB and Pinecone.' },
+                { day: 5, title: 'Platform Engineering', details: 'Research: What is Platform Engineering and how does it relate to DevOps? What is an Internal Developer Platform (IDP)? Task: Read an article from platformengineering.org.' },
+                { day: 6, title: 'Service Mesh Deep Dive', details: 'Research: Beyond basics, what are the advanced traffic management and security features of a service mesh like Istio or Linkerd? Task: Find a case study of a company implementing a service mesh.' },
+                { day: 7, title: 'Week 1 Review', details: 'Task: Write a short blog post draft (300 words) comparing two technologies you learned about this week (e.g., Edge vs. Centralized Serverless).' },
+                // Week 2: Evolving Frontend Landscape
+                { day: 8, title: 'Micro-frontends at Scale', details: 'Research: Deep dive into Webpack Module Federation. What are its pros and cons? Task: Look through the official Module Federation documentation and examples.' },
+                { day: 9, title: 'Modern JS Runtimes', details: 'Research: How do newer runtimes like Deno and Bun work? Why are they often faster than Node.js? Task: Create a "Hello World" server in both Deno and Bun.' },
+                { day: 10, title: 'The Rise of Signals', details: 'Research: How do Signals (e.g., in Solid.js, Preact, Qwik) provide fine-grained reactivity? How do they compare to React\'s virtual DOM? Task: Complete the interactive tutorial on the Solid.js homepage.' },
+                { day: 11, title: 'Modern CSS Features', details: 'Research: Explore features that are now widely supported, like Container Queries, the `:has()` selector, and View Transitions. Task: Create a small CodePen to experiment with one of these features.' },
+                { day: 12, title: 'Build Tools & Monorepos', details: 'Research: Why is Vite so fast? What is Turbopack? What are the benefits of a monorepo and tools like Nx or Turborepo? Task: Read the "Why Vite?" section in its documentation.' },
+                { day: 13, title: 'The Backend-for-Frontend (BFF) Pattern', details: 'Research: What problems does the BFF pattern solve? How does it relate to GraphQL and tRPC? Task: Diagram how a BFF would fit into your URL shortener project.' },
+                { day: 14, title: 'Week 2 Review', details: 'Task: Write a short summary explaining which new frontend technology you are most excited about and why.' },
+                // Week 3: The Frontier of AI/LLMs
+                { day: 15, title: 'LLM Agents & Autonomous Systems', details: 'Research: How do agents like Auto-GPT or frameworks like LangChain Agents work? Understand the ReAct (Reason + Act) pattern. Task: Watch a video explaining how an LLM agent completes a complex task.' },
+                { day: 16, title: 'Multi-modal Models', details: 'Research: How do models like GPT-4V (vision) and audio models work? What are their applications? Task: Use a multi-modal model to describe an image you provide.' },
+                { day: 17, title: 'Efficient AI Models', details: 'Research: What is model quantization? What is LoRA (Low-Rank Adaptation) for efficient fine-tuning? Task: Read a summary of the LoRA paper or a blog post explaining it.' },
+                { day: 18, title: 'Advanced RAG Techniques', details: 'Research: Explore techniques beyond basic retrieval, like re-ranking, query transformation, and HyDE (Hypothetical Document Embeddings). Task: Read a blog post from a vector database company about one of these techniques.' },
+                { day: 19, title: 'Open Source vs. Closed Source LLMs', details: 'Research: Compare the pros and cons of using open-source models (like Llama 3) versus API-based models (like GPT-4). Task: Find the latest open-source LLM leaderboard on Hugging Face.' },
+                { day: 20, title: 'AI Guardrails & Safety', details: 'Research: How can you prevent an LLM from generating harmful or off-topic content? Explore frameworks like NVIDIA NeMo Guardrails. Task: Brainstorm 3 potential "guardrails" for a customer service chatbot.' },
+                { day: 21, title: 'Week 3 Review', details: 'Task: Experiment with an open-source model on Hugging Face Spaces or LM Studio.' },
+                // Week 4: The Developer of the Future
+                { day: 22, title: 'AI-Driven Development', details: 'Research: How to effectively use tools like GitHub Copilot beyond basic auto-complete. Explore the concept of "prompt-driven development". Task: Try to build a small utility function entirely by prompting Copilot.' },
+                { day: 23, title: 'The Rust Programming Language', details: 'Research: Why is Rust gaining popularity? Understand its core concepts of ownership and the borrow checker. Task: Complete the "Hello, World!" and variables chapters on the official Rust Book.' },
+                { day: 24, title: 'Quantum Computing Basics', details: 'Research: What is a qubit? What kinds of problems is quantum computing suited for? (No deep math required). Task: Watch a 10-minute explainer video on quantum computing.' },
+                { day: 25, title: 'Decentralized Technologies', details: 'Research: What are modern use cases for blockchain beyond cryptocurrency? What is IPFS (InterPlanetary File System)? Task: Read about a non-financial dApp (decentralized application).' },
+                { day: 26, title: 'Building a Personal Brand', details: 'Research: The importance of a technical blog, public speaking, and open-source contributions for career growth. Task: Create a list of 5 potential blog post ideas based on your recent learnings.' },
+                { day: 27, title: 'Capstone Research Project', details: 'Task: Pick one topic from the entire month that fascinated you the most. Start outlining a 1000-word deep-dive article on it.' },
+                { day: 28, title: 'Capstone Research Project', details: 'Task: Continue writing your deep-dive article. Focus on explaining the "why" and its potential impact.' },
+                { day: 29, title: 'Capstone Research Project', details: 'Task: Finish and edit your article. Create any diagrams needed to explain the concept.' },
+                { day: 30, title: 'Plan Your Next Steps', details: 'Task: Based on your research, identify 1-2 new technologies you want to build a full project with. Create a mini-plan for your next 30 days of learning.' },
+            ],
+            webmastery: [
+                 // Week 1
+                { day: 1, title: 'Advanced JS & DOM', details: 'Deep dive into ES6+ (modules, classes, promises). Advanced DOM manipulation and event handling (event bubbling vs. capturing). Practice: Build a multi-step form with client-side validation using pure JavaScript.' },
+                { day: 2, title: 'Advanced Tailwind CSS', details: 'Responsive design, dark mode, custom utility classes using `@apply`, and configuring `tailwind.config.js`. Practice: Create a complex, responsive dashboard layout with a sidebar and main content area.' },
+                { day: 3, title: 'Project: Interactive UI', details: 'Build the complete UI for an analytics dashboard using Tailwind and JS. Make components interactive (dropdowns, toggles). Data can be hardcoded in a JS object.' },
+                { day: 4, title: 'REST API with PHP', details: 'REST principles, routing, handling HTTP methods (GET, POST). Connecting to MySQL with PDO. Practice: Create PHP scripts for a "posts" API (get all, get one, create).' },
+                { day: 5, title: 'Modern JS Data Fetching', details: 'Deep dive into the Fetch API, using `async/await`, and handling API errors. Practice: Write JS functions to call your PHP API endpoints.' },
+                { day: 6, title: 'Project: Connecting Dashboard', details: 'Connect your UI from Day 3 to your new PHP API. Fetch data dynamically to populate charts and tables. Send data from a form to the backend.' },
+                { day: 7, title: 'Review and Refactor', details: 'Review the week\'s code. Refactor one piece of code for better clarity or efficiency. Add comments.' },
+                // Week 2
+                { day: 8, title: 'Object-Oriented PHP', details: 'Classes, objects, inheritance, encapsulation. Refactor your API to use a simple MVC pattern. Practice: Rewrite your "posts" API using a `Post` class (Model) and `PostController`.' },
+                { day: 9, title: 'PHP Composer & Auth', details: 'Use Composer for packages. Implement user registration/login. Use `password_hash` and `$_SESSION`. Practice: Add user auth endpoints to your API.' },
+                { day: 10, title: 'Frontend State Management', details: 'Handle application state on the frontend (e.g., login status) without a library. Practice: Implement the login flow on your frontend, storing state in a JS object and updating the UI.' },
+                { day: 11, title: 'Full Project: "Post It"', details: 'Begin building a complete single-page application where users can register, log in, create, view, edit, and delete their own posts. All interactions must be via AJAX.' },
+                { day: 12, title: 'Project: "Post It" (Cont.)', details: 'Continue building the "Post It" application, focusing on the core CRUD (Create, Read, Update, Delete) functionality for posts.' },
+                { day: 13, title: 'Security Best Practices', details: 'Prevent SQL Injection with prepared statements. Prevent XSS by sanitizing user input. Practice: Audit your "Post It" code for security vulnerabilities.' },
+                { day: 14, title: 'Deployment & Portfolio', details: 'Prepare for deployment. Create a `.htaccess` for clean URLs. Document your project in a `README.md`. Practice: Deploy your application to a hosting provider.' },
+                // Remaining days are for catch-up and deeper practice
+                ...Array(16).fill(0).map((_, i) => ({ day: 15 + i, title: 'Practice & Review', details: 'Revisit a challenging topic from the past two weeks. Work on a personal project using these skills, or contribute to an open-source project.' }))
+            ],
+            english: [
+                // Week 1
+                { day: 1, title: 'Active Reading & Vocab', details: 'Read one editorial (e.g., from The Hindu). Find 5 new words, look up their meanings/synonyms, and write a sentence for each.' },
+                { day: 2, title: 'Listening & Comprehension', details: 'Listen to a 15-min podcast or TED Talk. Summarize the main arguments aloud in 3-4 sentences.' },
+                { day: 3, title: 'Speaking & Articulation', details: 'Pick a topic (e.g., "my favorite movie"). Record yourself speaking about it for 2 minutes. Listen back and note areas for improvement.' },
+                { day: 4, title: 'Review & Active Use', details: 'Review all new words from your journal. Try to use at least 3 in a conversation.' },
+                { day: 5, title: 'Advanced Vocabulary', details: 'Learn synonyms for common words (e.g., "good" -> "beneficial," "advantageous"). Use a thesaurus.' },
+                { day: 6, title: 'Active Listening & Mimicry', details: 'Watch a 10-min clip of an articulate speaker (e.g., an interview). Pay attention to their pauses and intonation. Try to mimic one sentence.' },
+                { day: 7, title: 'Writing with Precision', details: 'Write a 200-word paragraph describing a complex technical concept from your work. Focus on clarity.' },
+                 // Week 2
+                { day: 8, title: 'Review and Rewrite', details: 'Take a paragraph you wrote last week and rewrite it using more advanced vocabulary and varied sentence structures.' },
+                { day: 9, title: 'Structuring Thought', details: 'Pick a debate topic (e.g., "Is remote work more productive?"). Write three points for and three points against.' },
+                { day: 10, title: 'Persuasive Writing', details: 'Choose one side of your debate topic and write a 300-word persuasive email arguing your case. Use transition words.' },
+                { day: 11, title: 'Impromptu Speaking', details: 'Set a 1-minute timer and speak on a random topic. Goal: speak coherently without long pauses.' },
+                { day: 12, title: 'Review & Strengthen', details: 'Read your persuasive email aloud. Does it sound convincing? Identify and strengthen the weakest part.' },
+                { day: 13, title: 'Idioms & Nuance', details: 'Learn 3-5 common business idioms (e.g., "hit the ground running," "on the same page"). Understand their meaning.' },
+                { day: 14, title: 'Professional Emailing', details: 'Find examples of professional project update emails. Analyze their tone and structure. Draft a sample update email.' },
+                 // Week 3 & 4: Practice and Application
+                { day: 15, title: 'Presentation Practice', details: 'Prepare a 3-minute presentation on a technical topic. Practice delivering it, focusing on body language and clear speech.' },
+                { day: 16, title: 'Continuous Improvement Plan', details: 'Make a long-term plan. Choose a book to read, a podcast series to follow, and find a community to practice speaking.' },
+                ...Array(14).fill(0).map((_, i) => ({ day: 17 + i, title: 'Daily Habit Reinforcement', details: 'Choose one activity from the past two weeks (Reading, Listening, Speaking, or Writing) and practice for 30-60 minutes.' }))
+            ],
+            fitness: [
+                { day: 1, workout: "Active Recovery & Mobility" }, { day: 2, workout: "Upper Body & Core" }, { day: 3, workout: "Lower Body & HIIT" },
+                { day: 4, workout: "Active Recovery & Mobility" }, { day: 5, workout: "Upper Body & Core" }, { day: 6, workout: "Lower Body & HIIT" }, { day: 7, workout: "Rest Day" },
+                { day: 8, workout: "Active Recovery & Mobility" }, { day: 9, workout: "Upper Body & Core" }, { day: 10, workout: "Lower Body & HIIT" },
+                { day: 11, workout: "Active Recovery & Mobility" }, { day: 12, workout: "Upper Body & Core" }, { day: 13, workout: "Lower Body & HIIT" }, { day: 14, workout: "Rest Day" },
+                { day: 15, workout: "Active Recovery & Mobility" }, { day: 16, workout: "Upper Body & Core" }, { day: 17, workout: "Lower Body & HIIT" },
+                { day: 18, workout: "Active Recovery & Mobility" }, { day: 19, workout: "Upper Body & Core" }, { day: 20, workout: "Lower Body & HIIT" }, { day: 21, workout: "Rest Day" },
+                { day: 22, workout: "Active Recovery & Mobility" }, { day: 23, workout: "Upper Body & Core" }, { day: 24, workout: "Lower Body & HIIT" },
+                { day: 25, workout: "Active Recovery & Mobility" }, { day: 26, workout: "Upper Body & Core" }, { day: 27, workout: "Lower Body & HIIT" }, { day: 28, workout: "Rest Day" },
+                { day: 29, workout: "Full Body Challenge" }, { day: 30, workout: "Active Recovery & Mobility" }
+            ].map(d => ({...d, walk: "30-min Brisk Walk", breakfast: "Oats or Egg Whites", lunch: "Salad + Dal/Chicken + Sabzi + Roti/Rice", snack: "Fruit or Nuts", dinner: "Large bowl of Soup or Salad with Paneer/Tofu"})),
+            skincare: {
+                getPlan: (dayNumber) => {
+                    const dayOfWeek = (dayNumber - 1) % 7; // 0=Sun, 1=Mon, ..., 6=Sat
+                    let treatment = "None";
+                    if (dayOfWeek === 1) treatment = "Pack 1"; // Monday: Brightening
+                    if (dayOfWeek === 3) treatment = "Pack 2"; // Wednesday: De-Tan
+                    if (dayOfWeek === 5) treatment = "Pack 3"; // Friday: Glow
+                    if (dayOfWeek === 0) treatment = "Pack 4"; // Sunday: Soothing
+                    return { treatment };
+                },
+                packDetails: {
+                    "Pack 1": { name: "Brightening Pack", icon: "✨", purpose: "To reduce dark spots.", ingredients: "1 tsp Besan, pinch of Turmeric, 1 tsp Yogurt, 3-4 drops of Lemon." },
+                    "Pack 2": { name: "De-Tan Pack", icon: "🍅", purpose: "To remove tan and dead skin.", ingredients: "1 tsp Tomato pulp, 1 tsp Besan, 1 tsp Honey." },
+                    "Pack 3": { name: "Glow Pack", icon: "🌟", purpose: "For instant radiance.", ingredients: "1 tsp Honey, 1 tsp Aloe Vera gel, pinch of Turmeric." },
+                    "Pack 4": { name: "Soothing Pack", icon: "💧", purpose: "To calm and hydrate skin.", ingredients: "2 tsp Yogurt, 1 tsp Honey." }
+                }
+            },
+            homeWorkouts: {
+                "Upper Body & Core": ["Push-ups (or Knee Push-ups): 3 sets to failure", "Pike Push-ups: 3 sets to failure", "Plank: 3 sets, hold as long as possible", "Crunches: 3 sets of 20-30 reps", "Leg Raises: 3 sets of 15-25 reps", "Supermans: 3 sets of 15 reps"],
+                "Lower Body & HIIT": ["Bodyweight Squats: 3 sets of 20-30 reps", "Lunges: 3 sets of 15 reps per leg", "Glute Bridges: 3 sets of 20-30 reps", "Calf Raises: 4 sets of 25 reps", "HIIT Circuit (2 rounds): 45s Jumping Jacks, 15s rest -> 45s High Knees, 15s rest -> 45s Burpees, 15s rest"],
+                "Active Recovery & Mobility": ["15 minutes of full-body stretching (hold each stretch for 30s)", "15 minutes of light Yoga (e.g., Cat-Cow, Downward Dog, Warrior I & II, Child's Pose)"],
+                "Full Body Challenge": ["Complete 1 set of every exercise from the Upper Body & Lower Body days with minimal rest in between. Time yourself and try to beat your record next time."]
+            }
+        };
+
+        // --- LOGIC --- //
+        document.addEventListener('DOMContentLoaded', () => {
+            // Plan starts on July 27, 2025. Today (July 26) will show Day 1 as a preview.
+            const startDate = new Date("2025-07-27T00:00:00Z");
+            const today = new Date();
+            const timeDiff = today.getTime() - startDate.getTime();
+            const dayNumber = Math.max(1, Math.min(30, Math.floor(timeDiff / (1000 * 3600 * 24)) + 1));
+
+            let state = JSON.parse(localStorage.getItem('unifiedDashboardStateFinal')) || {
+                currentWeight: '76',
+                completedTasks: {}
+            };
+
+            const mainTabs = document.querySelectorAll('.main-tab');
+            const tabContentContainer = document.getElementById('tab-content-container');
+            
+            function saveState() {
+                localStorage.setItem('unifiedDashboardStateFinal', JSON.stringify(state));
+            }
+
+            function getDailySchedule(dayNum) {
+                if (dayNum < 1 || dayNum > 30) return null;
+
+                const fitnessPlan = masterPlan.fitness[dayNum - 1];
+                const fullstackPlan = masterPlan.fullstack[dayNum - 1];
+                const aiPlan = masterPlan.ai[dayNum - 1];
+                const researchPlan = masterPlan.research[dayNum - 1];
+                const skincarePlan = masterPlan.skincare.getPlan(dayNum);
+                const webMasteryPlan = masterPlan.webmastery[dayNum - 1];
+                const englishPlan = masterPlan.english[dayNum - 1];
+
+                return [
+                    { time: "7:00 AM", domain: 'fitness', icon: '🚶‍♂️', title: fitnessPlan.walk, details: `Daily walk to start the day.`, id: `fit-d${dayNum}-walk` },
+                    { time: "8:00 AM", domain: 'skincare', icon: '☀️', title: 'Morning Skincare', details: 'Cleanse, apply cream, then sunscreen.', id: `skin-d${dayNum}-morning` },
+                    { time: "8:30 AM", domain: 'fitness', icon: '🍳', title: 'Breakfast', details: fitnessPlan.breakfast, id: `fit-d${dayNum}-breakfast` },
+                    { time: "9:00 AM", domain: 'fullstack', icon: '💻', title: `FS: ${fullstackPlan.title}`, details: `<strong>Theory:</strong> ${fullstackPlan.theory}`, id: `fs-d${dayNum}-theory` },
+                    { time: "11:00 AM", domain: 'webmastery', icon: '🌐', title: `Web: ${webMasteryPlan.title}`, details: webMasteryPlan.details, id: `wm-d${dayNum}-task` },
+                    { time: "1:00 PM", domain: 'fitness', icon: '🥗', title: 'Lunch', details: fitnessPlan.lunch, id: `fit-d${dayNum}-lunch` },
+                    { time: "2:00 PM", domain: 'fullstack', icon: '⌨️', title: `FS Build: ${fullstackPlan.title}`, details: `<strong>Practical:</strong> ${fullstackPlan.practical}`, id: `fs-d${dayNum}-practical` },
+                    { time: "4:00 PM", domain: 'ai', icon: '🤖', title: `AI: ${aiPlan.title}`, details: `<strong>Theory:</strong> ${aiPlan.theory}`, id: `ai-d${dayNum}-theory` },
+                    { time: "5:00 PM", domain: 'ai', icon: '🧠', title: `AI Build: ${aiPlan.title}`, details: `<strong>Practical:</strong> ${aiPlan.practical}`, id: `ai-d${dayNum}-practical` },
+                    { time: "6:00 PM", domain: 'english', icon: '🗣️', title: `English: ${englishPlan.title}`, details: englishPlan.details, id: `en-d${dayNum}-task` },
+                    { time: "7:00 PM", domain: 'fitness', icon: '💪', title: 'Home Workout', details: fitnessPlan.workout, id: `fit-d${dayNum}-workout` },
+                    { time: "8:30 PM", domain: 'fitness', icon: '🍲', title: 'Dinner', details: fitnessPlan.dinner, id: `fit-d${dayNum}-dinner` },
+                    { time: "9:30 PM", domain: 'research', icon: '🔬', title: `Research: ${researchPlan.title}`, details: researchPlan.details, id: `res-d${dayNum}-task` },
+                    ...(skincarePlan.treatment !== 'None' ? [{ time: "11:00 PM", domain: 'skincare', icon: masterPlan.skincare.packDetails[skincarePlan.treatment].icon, title: `Skincare: ${masterPlan.skincare.packDetails[skincarePlan.treatment].name}`, details: `Apply pack for 15 mins.`, id: `skin-d${dayNum}-treatment` }] : []),
+                    { time: "11:30 PM", domain: 'skincare', icon: '🌙', title: 'Night Skincare', details: 'Cleanse, then apply Aloe Vera gel.', id: `skin-d${dayNum}-night` },
+                ];
+            }
+            
+            function getTotalTaskCount() {
+                let total = 0;
+                for (let i = 1; i <= 30; i++) {
+                    const dailySchedule = getDailySchedule(i);
+                    if(dailySchedule) total += dailySchedule.length;
+                }
+                return total;
+            }
+
+            const TOTAL_TASKS = getTotalTaskCount();
+
+            function renderDashboard() {
+                const schedule = getDailySchedule(dayNumber);
+                let dashboardHtml = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 bg-white p-4 sm:p-6 rounded-xl shadow-md border border-zinc-200">
+                        <div class="flex justify-between items-baseline mb-4">
+                            <h2 class="text-2xl sm:text-3xl font-bold text-indigo-700">Today's Schedule</h2>
+                            <p class="font-semibold text-zinc-500">Day ${dayNumber} of 30</p>
+                        </div>`;
+
+                if (!schedule) {
+                    dashboardHtml += `<div class="text-center py-8">
+                        <h2 class="text-2xl font-bold text-indigo-700 mb-2">Your Plan is Complete!</h2>
+                        <p class="text-zinc-600">Congratulations on finishing your 30-day transformation!</p>
+                    </div>`;
+                } else {
+                    const scheduleHtml = schedule.map(task => {
+                        const isChecked = state.completedTasks[task.id];
+                        const colors = {
+                            fitness: 'text-green-700', fullstack: 'text-blue-700', ai: 'text-purple-700',
+                            research: 'text-teal-700', skincare: 'text-emerald-700', webmastery: 'text-sky-700',
+                            english: 'text-rose-700',
+                        };
+                        return `
+                        <div class="task-item flex items-start py-4 border-b border-zinc-100 last:border-b-0">
+                            <input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="h-5 w-5 rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 mt-1 shrink-0" ${isChecked ? 'checked' : ''}>
+                            <label for="task-${task.id}" class="ml-4 flex-1 cursor-pointer">
+                                <p class="text-sm font-semibold text-zinc-500">${task.time}</p>
+                                <p class="font-bold text-base sm:text-lg ${colors[task.domain]} task-title"><span class="task-icon">${task.icon}</span> ${task.title}</p>
+                                <div class="text-sm text-zinc-600 mt-1 pl-7">${task.details}</div>
+                            </label>
+                        </div>`;
+                    }).join('');
+                    dashboardHtml += `<div class="divide-y divide-zinc-200">${scheduleHtml}</div>`;
+                }
+                dashboardHtml += `</div>`;
+
+                dashboardHtml += `
+                    <div class="space-y-8">
+                        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-zinc-200">
+                            <h2 class="text-2xl font-bold text-indigo-700 mb-4 text-center">Progress Hub</h2>
+                            <div class="chart-container mb-6">
+                                <canvas id="overallProgressChart"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                    <span id="chart-percent" class="text-3xl sm:text-4xl font-bold text-indigo-700">0%</span>
+                                    <span class="text-sm text-zinc-600">Plan Complete</span>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                ${[
+                                    {id: 'fullstack', name: 'Full-Stack Dev', color: 'bg-blue-600'}, 
+                                    {id: 'ai', name: 'AI / LLM', color: 'bg-purple-600'}, 
+                                    {id: 'research', name: 'Research & Tech', color: 'bg-teal-600'}, 
+                                    {id: 'webmastery', name: 'Web Mastery', color: 'bg-sky-600'}, 
+                                    {id: 'fitness', name: 'Fitness', color: 'bg-green-600'},
+                                    {id: 'english', name: 'English Fluency', color: 'bg-rose-600'},
+                                    {id: 'skincare', name: 'Skincare', color: 'bg-emerald-600'}
+                                ].map(domain => `
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm sm:text-base font-medium text-zinc-700">${domain.name}</span>
+                                        <span id="${domain.id}-progress-text" class="text-sm font-medium text-zinc-700">0%</span>
+                                    </div>
+                                    <div class="w-full bg-zinc-200 rounded-full h-2.5">
+                                        <div id="${domain.id}-progress-bar" class="progress-bar-fill ${domain.color} h-2.5 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-zinc-200">
+                             <h3 class="text-xl font-bold text-indigo-700 mb-4 text-center">Weight Tracker</h3>
+                             <div class="space-y-3 text-center">
+                                 <div class="p-3 bg-zinc-100 rounded-lg">
+                                     <label class="text-sm font-medium text-zinc-500">Start Weight</label>
+                                     <p class="text-2xl font-bold text-zinc-800">76 kg</p>
+                                 </div>
+                                 <div class="p-3 bg-zinc-100 rounded-lg">
+                                     <label for="current-weight" class="text-sm font-medium text-zinc-500">Current Weight (kg)</label>
+                                     <input type="number" id="current-weight" class="text-2xl font-bold text-indigo-700 bg-transparent w-full text-center border-none focus:ring-0" placeholder="76">
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>`;
+                tabContentContainer.innerHTML = dashboardHtml;
+                updateProgress();
+                
+                const currentWeightInput = document.getElementById('current-weight');
+                currentWeightInput.value = state.currentWeight;
+                currentWeightInput.addEventListener('change', (e) => {
+                    state.currentWeight = e.target.value;
+                    saveState();
+                });
+            }
+
+            function updateProgress() {
+                const completedCount = Object.values(state.completedTasks).filter(Boolean).length;
+                const overallPercentage = TOTAL_TASKS > 0 ? Math.round((completedCount / TOTAL_TASKS) * 100) : 0;
+                
+                const chartPercentEl = document.getElementById('chart-percent');
+                if (chartPercentEl) chartPercentEl.textContent = `${overallPercentage}%`;
+                
+                if (window.overallProgressChart) {
+                    window.overallProgressChart.data.datasets[0].data = [overallPercentage, 100 - overallPercentage];
+                    window.overallProgressChart.update();
+                } else if (document.getElementById('overallProgressChart')) {
+                    const ctx = document.getElementById('overallProgressChart').getContext('2d');
+                    window.overallProgressChart = new Chart(ctx, {
+                        type: 'doughnut', data: { datasets: [{ data: [overallPercentage, 100 - overallPercentage], backgroundColor: ['#6366f1', '#e4e4e7'], borderWidth: 0, borderRadius: 5 }] },
+                        options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { tooltip: { enabled: false } } }
+                    });
+                }
+                
+                ['fullstack', 'ai', 'research', 'webmastery', 'fitness', 'english', 'skincare'].forEach(domain => {
+                    let domainTotal = 0, domainCompleted = 0;
+                    for (let i = 1; i <= 30; i++) {
+                        const dailyTasks = getDailySchedule(i)?.filter(t => t.domain === domain) || [];
+                        domainTotal += dailyTasks.length;
+                        domainCompleted += dailyTasks.filter(t => state.completedTasks[t.id]).length;
+                    }
+                    const domainPercentage = domainTotal > 0 ? Math.round((domainCompleted / domainTotal) * 100) : 0;
+                    const progressBar = document.getElementById(`${domain}-progress-bar`);
+                    const progressText = document.getElementById(`${domain}-progress-text`);
+                    if(progressBar && progressText){
+                        progressBar.style.width = `${domainPercentage}%`;
+                        progressText.textContent = `${domainPercentage}%`;
+                    }
+                });
+            }
+            
+            function renderTechPlan(domain, title, colorClass) {
+                let html = `<h2 class="text-2xl sm:text-3xl font-bold ${colorClass} mb-6">${title}</h2><div class="space-y-4">`;
+                masterPlan[domain].forEach(day => {
+                    const prefix = domain.slice(0, 2);
+                    const theoryId = `${prefix}-d${day.day}-theory`;
+                    const practicalId = `${prefix}-d${day.day}-practical`;
+                    const theoryChecked = state.completedTasks[theoryId] ? 'checked' : '';
+                    const practicalChecked = state.completedTasks[practicalId] ? 'checked' : '';
+                    let taskHtml = `
+                        <div class="full-plan-task-item flex items-start space-x-3"><input id="task-${theoryId}" type="checkbox" data-task-id="${theoryId}" class="mt-1 h-4 w-4" ${theoryChecked}><label for="task-${theoryId}" class="flex-1"><strong>Theory:</strong> ${day.theory}</label></div>
+                        <div class="full-plan-task-item flex items-start space-x-3"><input id="task-${practicalId}" type="checkbox" data-task-id="${practicalId}" class="mt-1 h-4 w-4" ${practicalChecked}><label for="task-${practicalId}" class="flex-1"><strong>Practical:</strong> ${day.practical}</label></div>`;
+                    html += `<div id="day-card-${day.day}" class="p-4 bg-zinc-50 rounded-lg border border-zinc-200 ${day.day === dayNumber ? 'day-highlight' : ''}"><p class="font-bold ${colorClass}">Day ${day.day}: ${day.title}</p><div class="mt-2 text-sm text-zinc-600 space-y-2">${taskHtml}</div></div>`;
+                });
+                html += `</div>`;
+                return html;
+            }
+
+            function renderGenericPlan(domain, title, colorClass) {
+                let html = `<h2 class="text-2xl sm:text-3xl font-bold ${colorClass} mb-6">${title}</h2><div class="space-y-4">`;
+                masterPlan[domain].forEach(day => {
+                    const taskId = `${domain.slice(0,3)}-d${day.day}-task`;
+                    const isChecked = state.completedTasks[taskId] ? 'checked' : '';
+                    let taskHtml = `<div class="full-plan-task-item flex items-start space-x-3"><input id="task-${taskId}" type="checkbox" data-task-id="${taskId}" class="mt-1 h-4 w-4" ${isChecked}><label for="task-${taskId}" class="flex-1">${day.details}</label></div>`;
+                    html += `<div id="day-card-${day.day}" class="p-4 bg-zinc-50 rounded-lg border border-zinc-200 ${day.day === dayNumber ? 'day-highlight' : ''}"><p class="font-bold ${colorClass}">Day ${day.day}: ${day.title}</p><div class="mt-2 text-sm text-zinc-600 space-y-2">${taskHtml}</div></div>`;
+                });
+                html += `</div>`;
+                return html;
+            }
+
+            function renderFitnessPlan() {
+                let html = `<h2 class="text-2xl sm:text-3xl font-bold text-green-700 mb-6">Equipment-Free Fitness & Diet Plan</h2>
+                            <p class="mb-6 text-zinc-600">This plan uses a structured bodyweight routine. Focus on maintaining good form and pushing yourself to muscular fatigue. Consistency is more important than intensity.</p>
+                            <div class="grid md:grid-cols-3 gap-6 mb-8">`;
+                Object.entries(masterPlan.homeWorkouts).forEach(([day, exercises]) => {
+                     html += `<div class="p-4 bg-green-50 rounded-lg border border-green-200"><h4 class="font-bold text-lg text-green-800">${day}</h4><ul class="list-disc list-inside mt-2 text-sm text-zinc-600">${exercises.map(ex => `<li>${ex}</li>`).join('')}</ul></div>`;
+                });
+                html += `</div><div class="space-y-4">`;
+                masterPlan.fitness.forEach((day, index) => {
+                    const dayNum = index + 1;
+                    const dailyTasks = getDailySchedule(dayNum).filter(t => t.domain === 'fitness');
+                    let tasksHtml = dailyTasks.map(task => `<div class="full-plan-task-item flex items-center space-x-3"><input id="task-${task.id}" type="checkbox" data-task-id="${task.id}" class="h-4 w-4" ${state.completedTasks[task.id] ? 'checked' : ''}><label for="task-${task.id}"><strong>${task.title}:</strong> ${task.details}</label></div>`).join('');
+                    html += `<div id="day-card-${dayNum}" class="p-4 bg-zinc-50 rounded-lg border border-zinc-200 ${dayNum === dayNumber ? 'day-highlight' : ''}"><p class="font-bold text-green-700">Day ${dayNum}: ${day.workout}</p><div class="mt-2 text-sm text-zinc-600 space-y-1">${tasksHtml}</div></div>`;
+                });
+                html += `</div>`;
+                return html;
+            }
+
+            function renderSkincarePlan() {
+                let html = `<h2 class="text-2xl sm:text-3xl font-bold text-emerald-700 mb-6">Skincare 30-Day Plan</h2>
+                            <div class="mb-8"><h3 class="text-xl font-semibold text-zinc-800 mb-4">Natural Face Pack Toolkit</h3><div class="grid md:grid-cols-2 gap-4">`;
+                Object.values(masterPlan.skincare.packDetails).forEach(pack => {
+                    html += `<div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200"><h4 class="font-bold text-lg text-emerald-800">${pack.icon} ${pack.name}</h4><p class="text-sm font-medium text-emerald-700 mt-1">${pack.purpose}</p><p class="text-sm text-zinc-600 mt-2"><strong>Ingredients:</strong> ${pack.ingredients}</p></div>`;
+                });
+                html += `</div></div><div class="space-y-4">`;
+                 for (let dayNum = 1; dayNum <= 30; dayNum++) {
+                     const dailyTasks = getDailySchedule(dayNum)?.filter(t => t.domain === 'skincare') || [];
+                     let tasksHtml = dailyTasks.map(task => `<div class="full-plan-task-item flex items-center space-x-3"><input id="task-${task.id}" type="checkbox" data-task-id="${task.id}" class="h-4 w-4" ${state.completedTasks[task.id] ? 'checked' : ''}><label for="task-${task.id}"><strong>${task.title}:</strong> ${task.details}</label></div>`).join('');
+                     html += `<div id="day-card-${dayNum}" class="p-4 bg-zinc-50 rounded-lg border border-zinc-200 ${dayNum === dayNumber ? 'day-highlight' : ''}"><p class="font-bold text-emerald-700">Day ${dayNum}</p><div class="mt-2 text-sm text-zinc-600 space-y-1">${tasksHtml}</div></div>`;
+                }
+                html += `</div>`;
+                return html;
+            }
+            
+            function addJumpToTodayButton() {
+                const existingButton = document.getElementById('jump-to-today');
+                if (existingButton) existingButton.remove();
+                
+                let buttonHtml = `<button id="jump-to-today" class="sticky top-4 left-1/2 -translate-x-1/2 bg-indigo-600 text-white font-semibold py-2 px-5 rounded-full shadow-lg hover:bg-indigo-700 transition-transform hover:scale-105 z-10">Jump to Today</button>`;
+                tabContentContainer.insertAdjacentHTML('afterbegin', buttonHtml);
+                document.getElementById('jump-to-today').addEventListener('click', () => {
+                    document.getElementById(`day-card-${dayNumber}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            }
+
+            function renderFullPlan(domain) {
+                let content = '';
+                switch (domain) {
+                    case 'fullstack': content = renderTechPlan('fullstack', 'Full-Stack Dev 30-Day Plan', 'text-blue-700'); break;
+                    case 'ai': content = renderTechPlan('ai', 'AI / LLM 30-Day Plan', 'text-purple-700'); break;
+                    case 'research': content = renderGenericPlan('research', 'Research & Emerging Tech Plan', 'text-teal-700'); break;
+                    case 'webmastery': content = renderGenericPlan('webmastery', 'Web Mastery Plan', 'text-sky-700'); break;
+                    case 'english': content = renderGenericPlan('english', 'English Fluency Plan', 'text-rose-700'); break;
+                    case 'fitness': content = renderFitnessPlan(); break;
+                    case 'skincare': content = renderSkincarePlan(); break;
+                }
+                tabContentContainer.innerHTML = `<div class="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-zinc-200">${content}</div>`;
+                addJumpToTodayButton();
+            }
+
+            function handleTabClick(e) {
+                const tabButton = e.target.closest('.main-tab');
+                if (!tabButton) return;
+                mainTabs.forEach(t => t.classList.remove('active'));
+                tabButton.classList.add('active');
+                const tabName = tabButton.dataset.tab;
+                if (tabName === 'dashboard') renderDashboard(); else renderFullPlan(tabName);
+            }
+            
+            document.querySelector('nav').addEventListener('click', handleTabClick);
+            
+            tabContentContainer.addEventListener('change', (e) => {
+                if (e.target.matches('input[type="checkbox"]')) {
+                    const taskId = e.target.dataset.taskId;
+                    if (taskId) {
+                        state.completedTasks[taskId] = e.target.checked;
+                        saveState();
+                        if (document.getElementById('overallProgressChart')) updateProgress();
+                    }
+                }
+            });
+
+            document.getElementById('clear-progress-btn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all your progress? This action cannot be undone.')) {
+                    state.completedTasks = {};
+                    saveState();
+                    document.querySelector('.main-tab[data-tab="dashboard"]').click();
+                }
+            });
+
+            // Initial Load
+            document.querySelector('.main-tab[data-tab="dashboard"]').click();
+        });
+    </script>
+</body>
+</html>
