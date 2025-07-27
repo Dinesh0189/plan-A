@@ -98,8 +98,24 @@
                 { day: 12, title: 'Real-time with WebSockets', theory: 'Understand the WebSocket protocol for bidirectional communication.', practical: 'Add a WebSocket connection to the `analytics-service` to push real-time click updates to the frontend dashboard.' },
                 { day: 13, title: 'Observability', theory: 'The three pillars: Logs, Metrics, Traces. Instrumenting an application with Prometheus.', practical: 'Add a `/metrics` endpoint to your backend. Set up Prometheus/Grafana via Docker Compose to monitor key application metrics (e.g., URLs shortened).' },
                 { day: 14, title: 'Review & Full-Stack Polish', theory: 'Review the entire request lifecycle from frontend click to database write.', practical: 'Write end-to-end tests for the core user flow (login, shorten URL, view analytics).' },
-                // Week 3 & 4: Advanced Topics & Project Polish
-                ...Array(16).fill(0).map((_, i) => ({ day: 15 + i, title: `Advanced Topic Day ${i+1}`, theory: 'Choose one: GraphQL, gRPC, Kubernetes basics, advanced database indexing, or a security topic (OWASP Top 10).', practical: 'Create a small proof-of-concept project for the chosen topic or integrate it into your main project.' }))
+                // Week 3: Advanced Backend & DevOps
+                { day: 15, title: 'GraphQL API', theory: 'Understand GraphQL vs. REST, schemas, and queries.', practical: 'Build a basic GraphQL server that exposes data from your database.' },
+                { day: 16, title: 'gRPC Introduction', theory: 'Learn about Protocol Buffers and the performance benefits of gRPC.', practical: 'Create a simple gRPC client and server for a high-performance internal service.' },
+                { day: 17, title: 'Kubernetes - Pods & Deployments', theory: 'Learn the core concepts of the K8s control plane, Pods, and Deployments.', practical: 'Deploy your URL shortener application to a local Kubernetes cluster (Minikube/Kind).' },
+                { day: 18, title: 'Kubernetes - Services & Ingress', theory: 'Understand how to expose applications using Services (ClusterIP, NodePort) and Ingress.', practical: 'Expose your application to the outside world using a Service and an Ingress controller.' },
+                { day: 19, title: 'Advanced Database Indexing', theory: 'Study different index types (B-Tree, Hash) and when to use them.', practical: 'Use `EXPLAIN ANALYZE` on a slow query, add an appropriate index, and verify the performance improvement.' },
+                { day: 20, title: 'Message Queues', theory: 'Compare RabbitMQ (routing) vs. Kafka (streaming log).', practical: 'Integrate RabbitMQ to handle a background task, like sending a welcome email on user signup.' },
+                { day: 21, title: 'Week 3 Review', theory: 'Review the advanced backend technologies from the week.', practical: 'Integrate one of these new technologies into your main project and document your reasoning in the README.' },
+                // Week 4: Security, Performance & Final Project
+                { day: 22, title: 'Web Security (OWASP Top 10)', theory: 'Learn about common vulnerabilities like SQL Injection, XSS, and CSRF.', practical: 'Use a security scanner tool like OWASP ZAP to perform a basic scan on your application.' },
+                { day: 23, title: 'Performance & Load Testing', theory: 'Understand the basics of load testing and application profiling.', practical: 'Use a tool like `k6` or `autocannon` to load test a critical API endpoint and identify bottlenecks.' },
+                { day: 24, title: 'Final Project Scoping', theory: 'Learn how to break down a larger project into manageable tasks.', practical: 'Scope out a new, larger project (e.g., "Mini E-commerce Site") and create tickets or a task list.' },
+                { day: 25, title: 'Final Project - Backend Setup', theory: 'Review backend best practices for a new project.', practical: 'Set up the project structure, database schema, and initial API endpoints for your e-commerce site.' },
+                { day: 26, title: 'Final Project - Frontend Setup', theory: 'Review frontend architecture for a new project.', practical: 'Set up the Next.js application, create reusable components, and implement basic authentication.' },
+                { day: 27, title: 'Final Project - Core Feature', theory: 'Focus on implementing a key user flow from start to finish.', practical: 'Implement the "add product to cart" and "view cart" functionality, connecting frontend to backend.' },
+                { day: 28, title: 'Final Project - Deployment', theory: 'Review CI/CD and deployment strategies for a multi-service application.', practical: 'Deploy your new e-commerce project to a cloud provider.' },
+                { day: 29, title: 'Portfolio & Resume Update', theory: 'Read about writing effective project descriptions for a resume.', practical: 'Write a detailed README.md for your new project and update your resume to include it.' },
+                { day: 30, title: 'Mock System Design Interview', theory: 'Review common system design interview questions and frameworks for answering.', practical: 'Record yourself walking through a system design problem (e.g., "Design Instagram") for 15 minutes.' },
             ],
             ai: [
                 { day: 1, title: 'AI Kickstart', theory: 'Setup Python for AI (Miniconda, Jupyter). Review Python basics: data structures, functions, classes.', practical: 'Complete a Python refresher exercise. Write a script to read and parse a text file.' },
@@ -116,8 +132,24 @@
                 { day: 12, title: 'Containerizing the AI App', theory: 'Learn the specifics of Dockerizing a Python application, including dependency management.', practical: 'Write a Dockerfile for your FastAPI application and run it locally.' },
                 { day: 13, title: 'AI Ethics & Safety', theory: 'Read about common AI biases, model hallucinations, and prompt injection attacks.', practical: 'Write down 3 potential risks for your Q&A application and how you might mitigate them.' },
                 { day: 14, title: 'Final Project Integration', theory: 'Review how to call your new AI service from a simple frontend application (like one made with Streamlit or Gradio).', practical: 'Build a simple web UI for your RAG API using Streamlit.' },
-                // Week 3 & 4: Advanced AI Topics
-                ...Array(16).fill(0).map((_, i) => ({ day: 15 + i, title: `Advanced AI Day ${i+1}`, theory: 'Choose one: Fine-tuning basics, LLM Agents, multi-modal models (image generation), or evaluating LLM outputs.', practical: 'Follow a tutorial or read a paper on the chosen topic and write a summary of your key learnings.' }))
+                 // Week 3: Advanced RAG & Model Customization
+                { day: 15, title: 'Advanced RAG - Re-ranking', theory: 'Understand the difference between Bi-Encoders for retrieval and Cross-Encoders for re-ranking.', practical: 'Add a re-ranking step to your RAG pipeline to improve the quality of retrieved documents.' },
+                { day: 16, title: 'Advanced RAG - Query Transformation', theory: 'Learn techniques like HyDE (Hypothetical Document Embeddings) and Multi-Query Retriever.', practical: 'Implement one query transformation method and compare its results against your baseline RAG.' },
+                { day: 17, title: 'Fine-Tuning Basics (LoRA)', theory: 'What is LoRA (Low-Rank Adaptation) and how does it enable efficient fine-tuning?', practical: 'Follow a tutorial to fine-tune a small model (e.g., GPT-2 or a small variant of Llama) on a specific dataset using LoRA.' },
+                { day: 18, title: 'Evaluating LLM Outputs', theory: 'Study metrics like ROUGE and BLEU. Understand the concept of using a powerful LLM to evaluate the output of another.', practical: 'Write a prompt that asks GPT-4 to score two different model responses for accuracy and coherence.' },
+                { day: 19, title: 'Multi-modal Models', theory: 'Learn how models like CLIP and GPT-4V work to connect images and text.', practical: 'Use an API (e.g., from Hugging Face) to get a text description for an image you provide.' },
+                { day: 20, title: 'Text-to-Speech & Speech-to-Text', theory: 'Explore modern TTS and STT models and their APIs.', practical: 'Use a library or API to convert a text file to an audio file and then transcribe it back to text.' },
+                { day: 21, title: 'Week 3 Review', theory: 'Review the advanced AI techniques from the week.', practical: 'Combine two concepts: use STT to ask a question to your RAG bot and TTS to speak the answer aloud.' },
+                // Week 4: LLM Agents & Production AI
+                { day: 22, title: 'LLM Agents Introduction', theory: 'Understand the ReAct (Reason + Act) framework for building agents.', practical: 'Use LangChain to build a simple agent that has access to one tool, like a search engine.' },
+                { day: 23, title: 'Building Custom Tools for Agents', theory: 'Learn how to define a custom tool with a clear description so the agent knows when to use it.', practical: 'Create a custom tool for your agent, such as a function that can check the current weather for a given city.' },
+                { day: 24, title: 'AI Safety & Guardrails', theory: 'Learn about the dangers of prompt injection, jailbreaking, and data leakage.', practical: 'Use a library like `llm-guard` or write specific system prompts to add input/output moderation to your AI application.' },
+                { day: 25, title: 'Final AI Project Scoping', theory: 'Brainstorm ideas for an agent-based application.', practical: 'Scope out a new project: an AI agent that can browse a news website and provide daily summaries on a specific topic.' },
+                { day: 26, title: 'Final Project - Data Pipeline', theory: 'Review web scraping and data processing techniques.', practical: 'Write the scripts to fetch and process the news articles (e.g., from an RSS feed) needed for your agent.' },
+                { day: 27, title: 'Final Project - Agent Logic', theory: 'Focus on building the core reasoning loop of the agent.', practical: 'Build the agent and its tools for your news summarizer project.' },
+                { day: 28, title: 'Final Project - UI & Deployment', theory: 'Review deployment options for AI applications.', practical: 'Build a simple Streamlit UI for your agent and deploy it to a service like Streamlit Community Cloud.' },
+                { day: 29, title: 'AI Portfolio & Documentation', theory: 'Understand how to best showcase AI projects.', practical: 'Create a detailed GitHub repository for your agent project with a clear README, diagrams, and examples.' },
+                { day: 30, title: 'The Future of AI', theory: 'Read about the latest research trends from sources like arXiv, Hugging Face blogs, and AI newsletters.', practical: 'Write a short summary of what you believe will be the most impactful development in AI in the next year.' },
             ],
             research: [
                 // Week 1: Future of Backend & Infrastructure
@@ -198,16 +230,37 @@
                 ...Array(14).fill(0).map((_, i) => ({ day: 17 + i, title: 'Daily Habit Reinforcement', details: 'Choose one activity from the past two weeks (Reading, Listening, Speaking, or Writing) and practice for 30-60 minutes.' }))
             ],
             fitness: [
-                { day: 1, workout: "Active Recovery & Mobility" }, { day: 2, workout: "Upper Body & Core" }, { day: 3, workout: "Lower Body & HIIT" },
-                { day: 4, workout: "Active Recovery & Mobility" }, { day: 5, workout: "Upper Body & Core" }, { day: 6, workout: "Lower Body & HIIT" }, { day: 7, workout: "Rest Day" },
-                { day: 8, workout: "Active Recovery & Mobility" }, { day: 9, workout: "Upper Body & Core" }, { day: 10, workout: "Lower Body & HIIT" },
-                { day: 11, workout: "Active Recovery & Mobility" }, { day: 12, workout: "Upper Body & Core" }, { day: 13, workout: "Lower Body & HIIT" }, { day: 14, workout: "Rest Day" },
-                { day: 15, workout: "Active Recovery & Mobility" }, { day: 16, workout: "Upper Body & Core" }, { day: 17, workout: "Lower Body & HIIT" },
-                { day: 18, workout: "Active Recovery & Mobility" }, { day: 19, workout: "Upper Body & Core" }, { day: 20, workout: "Lower Body & HIIT" }, { day: 21, workout: "Rest Day" },
-                { day: 22, workout: "Active Recovery & Mobility" }, { day: 23, workout: "Upper Body & Core" }, { day: 24, workout: "Lower Body & HIIT" },
-                { day: 25, workout: "Active Recovery & Mobility" }, { day: 26, workout: "Upper Body & Core" }, { day: 27, workout: "Lower Body & HIIT" }, { day: 28, workout: "Rest Day" },
-                { day: 29, workout: "Full Body Challenge" }, { day: 30, workout: "Active Recovery & Mobility" }
-            ].map(d => ({...d, walk: "30-min Brisk Walk", breakfast: "Oats or Egg Whites", lunch: "Salad + Dal/Chicken + Sabzi + Roti/Rice", snack: "Fruit or Nuts", dinner: "Large bowl of Soup or Salad with Paneer/Tofu"})),
+                { day: 1, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "Vegetable Poha", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "1 Apple", dinner: "Large bowl of Vegetable Soup" },
+                { day: 2, walk: "30-min Brisk Walk", workout: "Upper Body & Core", breakfast: "Moong Dal Chilla", lunch: "Salad + Chana Masala + 1 bowl Brown Rice", snack: "Roasted Chana", dinner: "Salad with 100g Grilled Paneer" },
+                { day: 3, walk: "30-min Brisk Walk", workout: "Lower Body & HIIT", breakfast: "Oats with nuts", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "Buttermilk", dinner: "Smaller portion of lunch" },
+                { day: 4, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "2-3 Idlis with Sambar", lunch: "Salad + Rajma + 1 bowl Brown Rice", snack: "1 Orange", dinner: "Large bowl of Dal Soup" },
+                { day: 5, walk: "30-min Brisk Walk", workout: "Upper Body & Core", breakfast: "Vegetable Upma", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "Handful of nuts", dinner: "Salad with 100g Grilled Tofu" },
+                { day: 6, walk: "30-min Brisk Walk", workout: "Lower Body & HIIT", breakfast: "Moong Dal Chilla", lunch: "Salad + Chana Masala + 1 bowl Brown Rice", snack: "Green Tea", dinner: "Smaller portion of lunch" },
+                { day: 7, walk: "45-min Leisurely Walk", workout: "Rest Day", breakfast: "Choice of healthy breakfast", lunch: "Flexible balanced meal", snack: "Fruit", dinner: "Keep it light" },
+                { day: 8, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "Oats/Muesli", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "1 Apple", dinner: "Large bowl of Vegetable Soup" },
+                { day: 9, walk: "30-min Brisk Walk", workout: "Upper Body & Core", breakfast: "Besan Chilla", lunch: "Salad + Soya Curry + 1 bowl Brown Rice", snack: "Roasted Chana", dinner: "Salad with Grilled Paneer" },
+                { day: 10, walk: "30-min Brisk Walk", workout: "Lower Body & HIIT", breakfast: "Oats with nuts", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "Buttermilk", dinner: "Smaller portion of lunch" },
+                { day: 11, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "Idlis with Sambar", lunch: "Salad + Rajma + 1 bowl Brown Rice", snack: "1 Orange", dinner: "Large bowl of Dal Soup" },
+                { day: 12, walk: "30-min Brisk Walk", workout: "Upper Body & Core", breakfast: "Vegetable Upma", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "Handful of nuts", dinner: "Salad with Grilled Tofu" },
+                { day: 13, walk: "30-min Brisk Walk", workout: "Lower Body & HIIT", breakfast: "Moong Dal Chilla", lunch: "Salad + Chana Masala + 1 bowl Brown Rice", snack: "Green Tea", dinner: "Smaller portion of lunch" },
+                { day: 14, walk: "45-min Leisurely Walk", workout: "Rest Day", breakfast: "Choice of healthy breakfast", lunch: "Flexible balanced meal", snack: "Fruit", dinner: "Keep it light" },
+                { day: 15, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "Oats/Muesli", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "1 Apple", dinner: "Large bowl of Vegetable Soup" },
+                { day: 16, walk: "30-min Brisk Walk", workout: "Upper Body & Core", breakfast: "Moong Dal Chilla", lunch: "Salad + Chana Masala + 1 bowl Brown Rice", snack: "Roasted Chana", dinner: "Salad with Grilled Paneer" },
+                { day: 17, walk: "30-min Brisk Walk", workout: "Lower Body & HIIT", breakfast: "Oats with nuts", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "Buttermilk", dinner: "Soup and Salad only" },
+                { day: 18, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "Idlis with Sambar", lunch: "Salad + Rajma + 1 bowl Brown Rice", snack: "1 Orange", dinner: "Large bowl of Dal Soup" },
+                { day: 19, walk: "30-min Brisk Walk", workout: "Upper Body & Core", breakfast: "Vegetable Upma", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "Handful of nuts", dinner: "Soup and Salad only" },
+                { day: 20, walk: "30-min Brisk Walk", workout: "Lower Body & HIIT", breakfast: "Moong Dal Chilla", lunch: "Salad + Chana Masala + 1 bowl Brown Rice", snack: "Green Tea", dinner: "Smaller portion of lunch" },
+                { day: 21, walk: "45-min Leisurely Walk", workout: "Rest Day", breakfast: "Choice of healthy breakfast", lunch: "Flexible balanced meal", snack: "Fruit", dinner: "Keep it light" },
+                { day: 22, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "Oats/Muesli", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "1 Apple", dinner: "Large bowl of Vegetable Soup" },
+                { day: 23, walk: "30-min Brisk Walk", workout: "Upper Body & Core", breakfast: "Besan Chilla", lunch: "Salad + Soya Curry + 1 bowl Brown Rice", snack: "Roasted Chana", dinner: "Salad with Grilled Paneer" },
+                { day: 24, walk: "30-min Brisk Walk", workout: "Lower Body & HIIT", breakfast: "Oats with nuts", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "Buttermilk", dinner: "Smaller portion of lunch" },
+                { day: 25, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "Idlis with Sambar", lunch: "Salad + Rajma + 1 bowl Brown Rice", snack: "1 Orange", dinner: "Large bowl of Dal Soup" },
+                { day: 26, walk: "30-min Brisk Walk", workout: "Upper Body & Core", breakfast: "Vegetable Upma", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "Handful of nuts", dinner: "Salad with Grilled Tofu" },
+                { day: 27, walk: "30-min Brisk Walk", workout: "Lower Body & HIIT", breakfast: "Moong Dal Chilla", lunch: "Salad + Chana Masala + 1 bowl Brown Rice", snack: "Green Tea", dinner: "Smaller portion of lunch" },
+                { day: 28, walk: "45-min Leisurely Walk", workout: "Rest Day", breakfast: "Choice of healthy breakfast", lunch: "Flexible balanced meal", snack: "Fruit", dinner: "Keep it light" },
+                { day: 29, walk: "30-min Brisk Walk", workout: "Full Body Challenge", breakfast: "Oats/Muesli", lunch: "Salad + Dal + Sabzi + 2 Rotis", snack: "1 Apple", dinner: "Large bowl of Vegetable Soup" },
+                { day: 30, walk: "30-min Brisk Walk", workout: "Active Recovery & Mobility", breakfast: "Moong Dal Chilla", lunch: "Salad + Chana Masala + 1 bowl Brown Rice", snack: "Roasted Chana", dinner: "Salad with Grilled Paneer" },
+            ],
             skincare: {
                 getPlan: (dayNumber) => {
                     const dayOfWeek = (dayNumber - 1) % 7; // 0=Sun, 1=Mon, ..., 6=Sat
@@ -457,7 +510,7 @@
             function renderFitnessPlan() {
                 let html = `<h2 class="text-2xl sm:text-3xl font-bold text-green-700 mb-6">Equipment-Free Fitness & Diet Plan</h2>
                             <p class="mb-6 text-zinc-600">This plan uses a structured bodyweight routine. Focus on maintaining good form and pushing yourself to muscular fatigue. Consistency is more important than intensity.</p>
-                            <div class="grid md:grid-cols-3 gap-6 mb-8">`;
+                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">`;
                 Object.entries(masterPlan.homeWorkouts).forEach(([day, exercises]) => {
                      html += `<div class="p-4 bg-green-50 rounded-lg border border-green-200"><h4 class="font-bold text-lg text-green-800">${day}</h4><ul class="list-disc list-inside mt-2 text-sm text-zinc-600">${exercises.map(ex => `<li>${ex}</li>`).join('')}</ul></div>`;
                 });
@@ -473,18 +526,35 @@
             }
 
             function renderSkincarePlan() {
-                let html = `<h2 class="text-2xl sm:text-3xl font-bold text-emerald-700 mb-6">Skincare 30-Day Plan</h2>
-                            <div class="mb-8"><h3 class="text-xl font-semibold text-zinc-800 mb-4">Natural Face Pack Toolkit</h3><div class="grid md:grid-cols-2 gap-4">`;
+                 let html = `<h2 class="text-2xl sm:text-3xl font-bold text-emerald-700 mb-6">Skincare 30-Day Plan</h2>
+                            <div class="mb-8"><h3 class="text-xl font-semibold text-zinc-800 mb-4">Natural Face Pack Toolkit</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-4">`;
                 Object.values(masterPlan.skincare.packDetails).forEach(pack => {
                     html += `<div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200"><h4 class="font-bold text-lg text-emerald-800">${pack.icon} ${pack.name}</h4><p class="text-sm font-medium text-emerald-700 mt-1">${pack.purpose}</p><p class="text-sm text-zinc-600 mt-2"><strong>Ingredients:</strong> ${pack.ingredients}</p></div>`;
                 });
-                html += `</div></div><div class="space-y-4">`;
+                html += `</div></div>`;
+                
+                html += `<div class="mb-8"><h3 class="text-xl font-semibold text-zinc-800 mb-4">Weekly Schedule Overview</h3><div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 text-center">`;
+                const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                for (let dayNum = 1; dayNum <= 30; dayNum++) {
+                     const plan = masterPlan.skincare.getPlan(dayNum);
+                     const dayOfWeek = weekdays[(dayNum - 1) % 7];
+                     let treatmentHtml = `<p class="text-xs text-zinc-500 mt-1">Base Routine</p>`;
+                     if(plan.treatment !== 'None'){
+                         const details = masterPlan.skincare.packDetails[plan.treatment];
+                         treatmentHtml = `<div class="mt-1 text-sm text-emerald-800 bg-emerald-100 p-2 rounded-md h-full flex flex-col justify-center"><p class="font-semibold">${details.icon}</p><p class="text-xs font-semibold">${details.name}</p></div>`;
+                     }
+                     html += `<div class="p-2 bg-zinc-50 rounded-lg border border-zinc-200 flex flex-col ${dayNum === dayNumber ? 'day-highlight' : ''}"><p class="font-bold text-zinc-700">${dayOfWeek}</p><p class="text-sm text-zinc-500">Day ${dayNum}</p><div class="flex-grow flex items-center mt-1">${treatmentHtml}</div></div>`;
+                }
+                html += `</div></div>`;
+
+                html += `<div><h3 class="text-xl font-semibold text-zinc-800 mb-4">Daily Task Checklist</h3><div class="space-y-4">`;
                  for (let dayNum = 1; dayNum <= 30; dayNum++) {
                      const dailyTasks = getDailySchedule(dayNum)?.filter(t => t.domain === 'skincare') || [];
                      let tasksHtml = dailyTasks.map(task => `<div class="full-plan-task-item flex items-center space-x-3"><input id="task-${task.id}" type="checkbox" data-task-id="${task.id}" class="h-4 w-4" ${state.completedTasks[task.id] ? 'checked' : ''}><label for="task-${task.id}"><strong>${task.title}:</strong> ${task.details}</label></div>`).join('');
-                     html += `<div id="day-card-${dayNum}" class="p-4 bg-zinc-50 rounded-lg border border-zinc-200 ${dayNum === dayNumber ? 'day-highlight' : ''}"><p class="font-bold text-emerald-700">Day ${dayNum}</p><div class="mt-2 text-sm text-zinc-600 space-y-1">${tasksHtml}</div></div>`;
+                     html += `<div id="day-card-${dayNum}-skincare" class="p-4 bg-zinc-50 rounded-lg border border-zinc-200 ${dayNum === dayNumber ? 'day-highlight' : ''}"><p class="font-bold text-emerald-700">Day ${dayNum}</p><div class="mt-2 text-sm text-zinc-600 space-y-1">${tasksHtml}</div></div>`;
                 }
-                html += `</div>`;
+                html += `</div></div>`;
+
                 return html;
             }
             
@@ -495,7 +565,8 @@
                 let buttonHtml = `<button id="jump-to-today" class="sticky top-4 left-1/2 -translate-x-1/2 bg-indigo-600 text-white font-semibold py-2 px-5 rounded-full shadow-lg hover:bg-indigo-700 transition-transform hover:scale-105 z-10">Jump to Today</button>`;
                 tabContentContainer.insertAdjacentHTML('afterbegin', buttonHtml);
                 document.getElementById('jump-to-today').addEventListener('click', () => {
-                    document.getElementById(`day-card-${dayNumber}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    const targetEl = document.getElementById(`day-card-${dayNumber}`) || document.getElementById(`day-card-${dayNumber}-skincare`);
+                    targetEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 });
             }
 
